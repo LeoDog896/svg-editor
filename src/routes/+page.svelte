@@ -11,7 +11,7 @@
 
 	let value = `<!-- orange star -->
 <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
-    <polygon points="100,25 120,75 170,75 130,115 150,165 100,135 50,165 70,115 30,75 80,75" fill="#DBD56E" />
+    <polygon points="100,25 120,75 170,75 130,115 150,165 100,135 50,165 70,115 30,75 80,75" fill="#DE8F6E" />
 </svg>
 `;
 
