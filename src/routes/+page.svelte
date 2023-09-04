@@ -168,4 +168,9 @@
 		align-items: center;
 		height: 100%;
 	}
+
+    :global(svg) {
+        user-select: none;
+        pointer-events: none;
+    }
 </style>
