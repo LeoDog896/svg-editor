@@ -31,6 +31,7 @@
 		"svelte-check": "^3.4.3",
 		"svelte-monaco": "^0.2.0",
 		"svelte-mosaic": "^0.0.1",
+		"svelte-persistent": "^1.0.2",
 		"tslib": "^2.4.1",
 		"typescript": "^5.0.0",
 		"vite": "^4.4.2"

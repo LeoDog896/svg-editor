@@ -1581,6 +1581,11 @@ svelte-mosaic@^0.0.1:
   resolved "https://registry.yarnpkg.com/svelte-mosaic/-/svelte-mosaic-0.0.1.tgz#34d599c45e03eabf4cb22c3ab00ea05c897b37a3"
   integrity sha512-9LvASTaqFhBh2lN31foCsZ7VY6bk44t5M39oLdmpfhlHE6/L+nPEaT8aFWZS/GVPz+JnDTS9WsitZQliLJcHfQ==
 
+svelte-persistent@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/svelte-persistent/-/svelte-persistent-1.0.2.tgz#e88ffbfa2032a4c93d1ef6eabb74f81135beb881"
+  integrity sha512-/J+AkYjiLg4FbULj+S453lEYAk1+ziCbO9gPUpyPsVEJ0ghz34a4f03PJ8183bYitcMh97nfA//U9hFbI0sv4g==
+
 svelte-preprocess@^5.0.4:
   version "5.0.4"
   resolved "https://registry.yarnpkg.com/svelte-preprocess/-/svelte-preprocess-5.0.4.tgz#2123898e079a074f7f4ef1799e10e037f5bcc55b"
