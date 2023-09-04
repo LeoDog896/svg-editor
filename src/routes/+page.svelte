@@ -11,7 +11,7 @@
 
 	let value = `<!-- orange star -->
 <svg width="200" height="200" xmlns="http://www.w3.org/2000/svg">
-    <polygon points="100,25 120,75 170,75 130,115 150,165 100,135 50,165 70,115 30,75 80,75" fill="orange" />
+    <polygon points="100,25 120,75 170,75 130,115 150,165 100,135 50,165 70,115 30,75 80,75" fill="#DBD56E" />
 </svg>
 `;
 
@@ -51,10 +51,12 @@
 
 <header>
 	<h1>svg-editor</h1>
-	<button on:click={() => fileUpload.click()}>Upload</button>
-	<button on:click={downloadSVG}>Download as SVG</button>
-    <button on:click={downloadPNG}>Download as PNG</button>
-    <button>Format Code</button>
+    <div id="buttons">
+        <button on:click={() => fileUpload.click()}>Upload</button>
+        <button on:click={downloadSVG}>Download as SVG</button>
+        <button on:click={downloadPNG}>Download as PNG</button>
+        <button>Format Code</button>
+    </div>
 </header>
 
 <input
@@ -92,10 +94,37 @@
 
 	header {
 		display: flex;
-		justify-content: space-around;
+		justify-content: space-between;
 		align-items: center;
-		background-color: darkgray;
+		background-color: #88AB75;
+        color: #F0F4EF;
 	}
+
+    #buttons button {
+        padding: 0.5rem;
+        margin: 0.5rem;
+        border-radius: 0.5rem;
+        border: none;
+        background-color: #F0F4EF;
+        color: #2D93AD;
+        font-size: 1rem;
+        font-family: 'Manrope Variable', sans-serif;
+    }
+
+    #buttons button:hover {
+        background-color: #2D93AD;
+        color: #F0F4EF;
+        cursor: pointer;
+    }
+
+    header h1 {
+        margin-left: 1rem;
+        font-weight: 800;
+    }
+
+    header #buttons {
+        margin-right: 1rem;
+    }
 
 	#display {
 		display: flex;
