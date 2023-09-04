@@ -2,6 +2,9 @@
 	import Monaco from 'svelte-monaco';
 	import Node from 'svelte-mosaic';
 	import type { ChangeEventHandler } from 'svelte/elements';
+    import download from "downloadjs";
+
+    let fileName = "untitled.svg";
 
 	let fileUpload: HTMLInputElement;
 	let value = `<!-- orange star -->
@@ -14,18 +17,25 @@
 		const file = event.currentTarget?.files![0];
 		const reader = new FileReader();
 		reader.onload = (event) => {
+            fileName = file.name;
 			value = event.target!.result as string;
 		};
 
 		reader.readAsText(file);
 		fileUpload.value = '';
 	};
+
+    const downloadSVG = () => {
+        download(value, fileName, "image/svg+xml");
+    }
 </script>
 
 <header>
 	<h1>svg-editor</h1>
 	<button on:click={() => fileUpload.click()}>Upload</button>
-	<button>Download</button>
+	<button on:click={downloadSVG}>Download as SVG</button>
+    <button>Download as PNG</button>
+    <button>Format Code</button>
 </header>
 
 <input
