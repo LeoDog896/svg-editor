@@ -4,7 +4,6 @@
 	import type { ChangeEventHandler } from 'svelte/elements';
 	import { localStore } from 'svelte-persistent';
 	import download from 'downloadjs';
-    import { parse, valid, type HTMLElement } from 'node-html-parser';
 
 	const storagePrefix = 'leodog896-svg-editor-';
 	let fileName = localStore(`${storagePrefix}filename`, 'untitled');
@@ -20,13 +19,6 @@
 </svg>
 `
 	);
-    
-    let html: HTMLElement | undefined;
-    $: if (valid($value)) {
-        html = parse($value);
-    } else {
-        html = undefined
-    }
 
 	const handleFileSelect: ChangeEventHandler<HTMLInputElement> = (event) => {
 		const file = event.currentTarget?.files![0];
@@ -41,7 +33,20 @@
 	};
 
 	const downloadSVG = () => {
-		download($value, $fileName, 'image/svg+xml');
+		const svg = new Blob([$value], { type: 'image/svg+xml;charset=utf-8' });
+		const url = URL.createObjectURL(svg);
+		const img = new Image();
+		img.onload = () => {
+			download(
+				$value,
+				$fileName
+					.replaceAll('{width}', img.width.toString())
+					.replaceAll('{height}', img.height.toString()) + '.svg',
+				'image/svg+xml'
+			);
+		};
+
+		img.src = url;
 	};
 
 	const downloadPNG = () => {
@@ -54,7 +59,13 @@
 			const ctx = canvas.getContext('2d');
 			ctx?.drawImage(img, 0, 0);
 			const png = canvas.toDataURL('image/png');
-			download(png, $fileName + ".png", 'image/png');
+			download(
+				png,
+				$fileName
+					.replaceAll('{width}', img.width.toString())
+					.replaceAll('{height}', img.height.toString()) + '.png',
+				'image/png'
+			);
 		};
 		img.src = url;
 	};
@@ -63,10 +74,10 @@
 <canvas bind:this={canvas} hidden />
 
 <header>
-    <div class="title">
-	    <h1>svg-editor</h1>
-        <input type="text" placeholder="file name" bind:value={$fileName} />
-    </div>
+	<div class="title">
+		<h1>svg-editor</h1>
+		<input type="text" placeholder="file name" bind:value={$fileName} />
+	</div>
 	<div id="buttons">
 		<button on:click={() => fileUpload.click()}>Upload</button>
 		<button on:click={downloadSVG}>Download as SVG</button>
@@ -103,20 +114,19 @@
 </Node>
 
 <style>
-
 	div#editor {
 		height: 100%;
 		width: 100%;
 	}
 
-    .title {
-        display: flex;
-        align-items: center;
-    }
+	.title {
+		display: flex;
+		align-items: center;
+	}
 
-    .title input {
-        margin-left: 1rem;
-    }
+	.title input {
+		margin-left: 1rem;
+	}
 
 	header {
 		display: flex;
