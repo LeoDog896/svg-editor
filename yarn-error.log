@@ -1,0 +1,68 @@
+Arguments: 
+  C:\Users\LeoDo\Documents\npm\.nvm\v18.17.1\node.exe C:\Users\LeoDo\Documents\npm\.nvm\v18.17.1\node_modules\yarn\bin\yarn.js add -D @sveltejs/adapter-svelte
+
+PATH: 
+  C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\Git\cmd;C:\Program Files\starship\bin\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Docker\Docker\resources\bin;C:\Users\LeoDo\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\LeoDo\AppData\Local\Programs\Python\Python311\Scripts\;C:\Users\LeoDo\AppData\Local\Programs\Python\Python311\;C:\Users\LeoDo\Documents\npm\.nvm\v18.17.1;C:\Program Files\WindowsPowerShell\Modules\nvm\2.5.1\vs\v18.17.1;C:\Users\LeoDo\.cargo\bin;C:\Users\LeoDo\AppData\Local\Microsoft\WindowsApps;C:\Users\LeoDo\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\LeoDo\AppData\Local\GitHubDesktop\bin;C:\Users\LeoDo\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\Users\LeoDo\.deno\bin;C:\Users\LeoDo\AppData\Local\gitkraken\bin;C:\Users\LeoDo\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\LocalCache\local-packages\Python311\Scripts;
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  18.17.1
+
+Platform: 
+  win32 x64
+
+Trace: 
+  Error: https://registry.yarnpkg.com/@sveltejs%2fadapter-svelte: Not found
+      at params.callback [as _callback] (C:\Users\LeoDo\Documents\npm\.nvm\v18.17.1\node_modules\yarn\lib\cli.js:66145:18)
+      at self.callback (C:\Users\LeoDo\Documents\npm\.nvm\v18.17.1\node_modules\yarn\lib\cli.js:140890:22)
+      at Request.emit (node:events:514:28)
+      at Request.<anonymous> (C:\Users\LeoDo\Documents\npm\.nvm\v18.17.1\node_modules\yarn\lib\cli.js:141862:10)
+      at Request.emit (node:events:514:28)
+      at IncomingMessage.<anonymous> (C:\Users\LeoDo\Documents\npm\.nvm\v18.17.1\node_modules\yarn\lib\cli.js:141784:12)
+      at Object.onceWrapper (node:events:628:28)
+      at IncomingMessage.emit (node:events:526:35)
+      at endReadableNT (node:internal/streams/readable:1359:12)
+      at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+
+npm manifest: 
+  {
+  	"name": "svg-editor",
+  	"version": "0.0.1",
+  	"private": true,
+  	"scripts": {
+  		"dev": "vite dev",
+  		"build": "vite build",
+  		"preview": "vite preview",
+  		"test": "playwright test",
+  		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+  		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+  		"lint": "prettier --plugin-search-dir . --check . && eslint .",
+  		"format": "prettier --plugin-search-dir . --write ."
+  	},
+  	"devDependencies": {
+  		"@playwright/test": "^1.28.1",
+  		"@sveltejs/adapter-auto": "^2.0.0",
+  		"@sveltejs/kit": "^1.20.4",
+  		"@typescript-eslint/eslint-plugin": "^5.45.0",
+  		"@typescript-eslint/parser": "^5.45.0",
+  		"eslint": "^8.28.0",
+  		"eslint-config-prettier": "^8.5.0",
+  		"eslint-plugin-svelte": "^2.30.0",
+  		"prettier": "^2.8.0",
+  		"prettier-plugin-svelte": "^2.10.1",
+  		"svelte": "^4.0.5",
+  		"svelte-check": "^3.4.3",
+  		"tslib": "^2.4.1",
+  		"typescript": "^5.0.0",
+  		"vite": "^4.4.2"
+  	},
+  	"type": "module"
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
