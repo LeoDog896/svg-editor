@@ -131,5 +131,11 @@
 		justify-content: center;
 		align-items: center;
 		height: 100%;
+        z-index: -1;
 	}
+
+    :global(svg) {
+        user-select: none;
+        pointer-events: none;
+    }
 </style>
