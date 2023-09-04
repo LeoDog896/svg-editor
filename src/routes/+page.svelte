@@ -4,9 +4,10 @@
 	import type { ChangeEventHandler } from 'svelte/elements';
 	import { localStore } from 'svelte-persistent';
 	import download from 'downloadjs';
+    import { parse, valid, type HTMLElement } from 'node-html-parser';
 
 	const storagePrefix = 'leodog896-svg-editor-';
-	let fileName = localStore(`${storagePrefix}filename`, 'untitled.svg');
+	let fileName = localStore(`${storagePrefix}filename`, 'untitled');
 
 	let fileUpload: HTMLInputElement;
 	let canvas: HTMLCanvasElement;
@@ -19,12 +20,19 @@
 </svg>
 `
 	);
+    
+    let html: HTMLElement | undefined;
+    $: if (valid($value)) {
+        html = parse($value);
+    } else {
+        html = undefined
+    }
 
 	const handleFileSelect: ChangeEventHandler<HTMLInputElement> = (event) => {
 		const file = event.currentTarget?.files![0];
 		const reader = new FileReader();
 		reader.onload = (event) => {
-			$fileName = file.name;
+			$fileName = file.name.replace('.svg', '');
 			$value = event.target!.result as string;
 		};
 
@@ -46,7 +54,7 @@
 			const ctx = canvas.getContext('2d');
 			ctx?.drawImage(img, 0, 0);
 			const png = canvas.toDataURL('image/png');
-			download(png, $fileName.replace('.svg', '.png'), 'image/png');
+			download(png, $fileName + ".png", 'image/png');
 		};
 		img.src = url;
 	};
@@ -55,7 +63,10 @@
 <canvas bind:this={canvas} hidden />
 
 <header>
-	<h1>svg-editor</h1>
+    <div class="title">
+	    <h1>svg-editor</h1>
+        <input type="text" placeholder="file name" bind:value={$fileName} />
+    </div>
 	<div id="buttons">
 		<button on:click={() => fileUpload.click()}>Upload</button>
 		<button on:click={downloadSVG}>Download as SVG</button>
@@ -92,10 +103,20 @@
 </Node>
 
 <style>
+
 	div#editor {
 		height: 100%;
 		width: 100%;
 	}
+
+    .title {
+        display: flex;
+        align-items: center;
+    }
+
+    .title input {
+        margin-left: 1rem;
+    }
 
 	header {
 		display: flex;
@@ -136,11 +157,5 @@
 		justify-content: center;
 		align-items: center;
 		height: 100%;
-		z-index: -1;
-	}
-
-	:global(svg) {
-		user-select: none;
-		pointer-events: none;
 	}
 </style>
