@@ -167,6 +167,7 @@
 		justify-content: center;
 		align-items: center;
 		height: 100%;
+        z-index: -1;
 	}
 
     :global(svg) {
