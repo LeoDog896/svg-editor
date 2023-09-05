@@ -173,5 +173,6 @@
     :global(svg) {
         user-select: none;
         pointer-events: none;
+        z-index: -1;
     }
 </style>
