@@ -4,9 +4,12 @@
 	import type { ChangeEventHandler } from 'svelte/elements';
 	import { localStore } from 'svelte-persistent';
 	import download from 'downloadjs';
+	import Modal from '$lib/Modal.svelte';
+	import { parse, type HTMLElement } from 'node-html-parser';
 
 	const storagePrefix = 'leodog896-svg-editor-';
 	let fileName = localStore(`${storagePrefix}filename`, 'untitled');
+	let sizes = localStore(`${storagePrefix}sizes`, '');
 
 	let fileUpload: HTMLInputElement;
 
@@ -48,8 +51,8 @@
 		img.src = url;
 	};
 
-	const downloadPNG = () => {
-		const svg = new Blob([$value], { type: 'image/svg+xml;charset=utf-8' });
+	function downloadPNGBySVG(value: string) {
+		const svg = new Blob([value], { type: 'image/svg+xml;charset=utf-8' });
 		const url = URL.createObjectURL(svg);
 		const img = new Image();
 		img.onload = async () => {
@@ -69,8 +72,38 @@
 			);
 		};
 		img.src = url;
-	};
+	}
+
+	const downloadPNG = () => downloadPNGBySVG($value);
+
+	let shouldShowModal = false;
+
+	function showModal() {
+		shouldShowModal = true;
+	}
+
+	function downloadAll() {
+		for (const [width, height] of $sizes.split('\n').map((s) => s.split('x'))) {
+			const node = parse($value);
+			const svg = node.querySelector('svg')!;
+			const svgClone = svg.clone() as HTMLElement;
+			svgClone.setAttribute('width', width);
+			svgClone.setAttribute('height', height);
+			node.exchangeChild(svg, svgClone);
+			console.log(node.toString());
+			downloadPNGBySVG(node.toString());
+		}
+	}
 </script>
+
+<Modal bind:showModal={shouldShowModal}>
+	<h1 slot="header">Render</h1>
+	<p>Name: <input type="text" bind:value={$fileName} /></p>
+	<p>Sizes:</p>
+	<textarea bind:value={$sizes} placeholder="Enter sizes (optional, widthxheight e.g. 1920x1080)"></textarea>
+	<br />
+	<button on:click={downloadAll}>Download All</button>
+</Modal>
 
 <header>
 	<div class="title">
@@ -79,8 +112,9 @@
 	</div>
 	<div id="buttons">
 		<button on:click={() => fileUpload.click()}>Upload</button>
-		<button on:click={downloadSVG}>Download as SVG</button>
-		<button on:click={downloadPNG}>Download as PNG</button>
+		<button on:click={downloadSVG}>Download SVG</button>
+		<button on:click={downloadPNG}>Quick PNG Render</button>
+		<button on:click={showModal}>Render PNG</button>
 		<button>Format Code</button>
 	</div>
 </header>
@@ -173,5 +207,9 @@
 		user-select: none;
 		pointer-events: none;
 		z-index: -1;
+	}
+
+	textarea {
+		width: 100%;
 	}
 </style>
