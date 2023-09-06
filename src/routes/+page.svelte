@@ -9,7 +9,6 @@
 	let fileName = localStore(`${storagePrefix}filename`, 'untitled');
 
 	let fileUpload: HTMLInputElement;
-	let canvas: HTMLCanvasElement;
 
 	let value = localStore(
 		`${storagePrefix}filecontent`,
@@ -53,12 +52,14 @@
 		const svg = new Blob([$value], { type: 'image/svg+xml;charset=utf-8' });
 		const url = URL.createObjectURL(svg);
 		const img = new Image();
-		img.onload = () => {
-			canvas.width = img.width;
-			canvas.height = img.height;
+		img.onload = async () => {
+			const canvas = new OffscreenCanvas(img.width, img.height);
 			const ctx = canvas.getContext('2d');
 			ctx?.drawImage(img, 0, 0);
-			const png = canvas.toDataURL('image/png');
+			const png = await canvas.convertToBlob({
+				type: 'image/png',
+				quality: 1
+			});
 			download(
 				png,
 				$fileName
@@ -70,8 +71,6 @@
 		img.src = url;
 	};
 </script>
-
-<canvas bind:this={canvas} hidden />
 
 <header>
 	<div class="title">
@@ -167,12 +166,12 @@
 		justify-content: center;
 		align-items: center;
 		height: 100%;
-        z-index: -1;
+		z-index: -1;
 	}
 
-    :global(svg) {
-        user-select: none;
-        pointer-events: none;
-        z-index: -1;
-    }
+	:global(svg) {
+		user-select: none;
+		pointer-events: none;
+		z-index: -1;
+	}
 </style>
