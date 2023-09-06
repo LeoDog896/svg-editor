@@ -102,7 +102,7 @@
 	<h1 slot="header">Render</h1>
 	<p>Name: <input type="text" bind:value={$fileName} /></p>
 	<p>Sizes:</p>
-	<textarea bind:value={$sizes} placeholder="Enter sizes (optional, widthxheight e.g. 1920x1080)" />
+	<textarea bind:value={$sizes} placeholder="Enter sizes (widthxheight e.g. 1920x1080)" />
 	<br />
 	<button on:click={downloadAll}>Download All</button>
 </Modal>
