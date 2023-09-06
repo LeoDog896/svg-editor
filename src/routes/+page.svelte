@@ -51,27 +51,30 @@
 		img.src = url;
 	};
 
-	function downloadPNGBySVG(value: string) {
-		const svg = new Blob([value], { type: 'image/svg+xml;charset=utf-8' });
-		const url = URL.createObjectURL(svg);
-		const img = new Image();
-		img.onload = async () => {
-			const canvas = new OffscreenCanvas(img.width, img.height);
-			const ctx = canvas.getContext('2d');
-			ctx?.drawImage(img, 0, 0);
-			const png = await canvas.convertToBlob({
-				type: 'image/png',
-				quality: 1
-			});
-			download(
-				png,
-				$fileName
-					.replaceAll('{width}', img.width.toString())
-					.replaceAll('{height}', img.height.toString()) + '.png',
-				'image/png'
-			);
-		};
-		img.src = url;
+	function downloadPNGBySVG(value: string): Promise<void> {
+		return new Promise((resolve) => {
+			const svg = new Blob([value], { type: 'image/svg+xml;charset=utf-8' });
+			const url = URL.createObjectURL(svg);
+			const img = new Image();
+			img.onload = async () => {
+				const canvas = new OffscreenCanvas(img.width, img.height);
+				const ctx = canvas.getContext('2d');
+				ctx?.drawImage(img, 0, 0);
+				const png = await canvas.convertToBlob({
+					type: 'image/png',
+					quality: 1
+				});
+				download(
+					png,
+					$fileName
+						.replaceAll('{width}', img.width.toString())
+						.replaceAll('{height}', img.height.toString()) + '.png',
+					'image/png'
+				);
+				resolve();
+			};
+			img.src = url;
+		});
 	}
 
 	const downloadPNG = () => downloadPNGBySVG($value);
@@ -82,7 +85,7 @@
 		shouldShowModal = true;
 	}
 
-	function downloadAll() {
+	async function downloadAll() {
 		for (const [width, height] of $sizes.split('\n').map((s) => s.split('x'))) {
 			const node = parse($value);
 			const svg = node.querySelector('svg')!;
@@ -90,8 +93,7 @@
 			svgClone.setAttribute('width', width);
 			svgClone.setAttribute('height', height);
 			node.exchangeChild(svg, svgClone);
-			console.log(node.toString());
-			downloadPNGBySVG(node.toString());
+			await downloadPNGBySVG(node.toString());
 		}
 	}
 </script>
@@ -100,7 +102,7 @@
 	<h1 slot="header">Render</h1>
 	<p>Name: <input type="text" bind:value={$fileName} /></p>
 	<p>Sizes:</p>
-	<textarea bind:value={$sizes} placeholder="Enter sizes (optional, widthxheight e.g. 1920x1080)"></textarea>
+	<textarea bind:value={$sizes} placeholder="Enter sizes (optional, widthxheight e.g. 1920x1080)" />
 	<br />
 	<button on:click={downloadAll}>Download All</button>
 </Modal>

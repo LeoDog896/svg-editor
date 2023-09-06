@@ -8,7 +8,7 @@ const config = {
 	kit: {
 		adapter: adapter(),
 		paths: {
-			base: '/svg-editor',
+			base: '/svg-editor'
 		}
 	}
 };
